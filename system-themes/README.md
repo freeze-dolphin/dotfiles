@@ -2,5 +2,5 @@
 
 ## Graphite (vinceliuice)
 
-![screenshot-graphite](Graphite by vinceliuice.png)
+![screenshot-graphite](Graphite.png)
 
