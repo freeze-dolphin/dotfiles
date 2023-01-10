@@ -10,7 +10,7 @@
 	// "margin-right": 100,
 	// "margin-left": 100,
 	
-    "modules-left": ["tray", "custom/media", "cpu", "memory", "sway/workspaces", "sway/mode"],
+    "modules-left": ["tray", "custom/media", "battery", "cpu", "memory", "sway/workspaces", "sway/mode"],
     "modules-center": ["sway/window"],
     "modules-right": ["keyboard-state", "network", "pulseaudio", "clock"],
     // Modules configuration
@@ -156,10 +156,10 @@
     },
     "pulseaudio": {
         "scroll-step": 1, // %, can be a float
-        "format": "{volume}% {icon}  / {format_source}",
-        "format-bluetooth": "{volume}% {icon}   / {format_source}",
-        "format-bluetooth-muted": "  {icon}   / {format_source}",
-        "format-muted": " / {format_source}",
+        "format": "{volume}%  {icon}  | {format_source}",
+        "format-bluetooth": "{volume}%  {icon}   | {format_source}",
+        "format-bluetooth-muted": "  {icon}   | {format_source}",
+        "format-muted": " | {format_source}",
         "format-source": "{volume}%  ",
         "format-source-muted": "",
         "format-icons": {

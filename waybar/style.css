@@ -1,11 +1,12 @@
 * {
     /* `otf-font-awesome` is required to be installed for icons */
-    font-family: FontAwesome, JetBrainsMono, Sarasa Gothic SC, Roboto, Helvetica, Arial, sans-serif;
+    font-family: JetBrainsMono Nerd Font, FontAwesome, Sarasa Gothic SC, Roboto, Helvetica, Arial, sans-serif;
     font-size: 14px;
 }
 
 window#waybar {
-    background-color: rgb(43, 48, 59);
+    font-family: Noto Sans CJK Regular;
+    background-color: #202329;
 /*    border-bottom: 3px solid rgba(100, 114, 125, 0.5);*/
     color: #ffffff;
     transition-property: background-color;
@@ -53,7 +54,7 @@ window#waybar.solo {
 }
 
 #mode {
-    background-color: #40444e;
+    background-color: #282c35;
     /* border-bottom: 3px solid #ffffff; */
 }
 
@@ -71,9 +72,9 @@ window#waybar.solo {
 #mode,
 #idle_inhibitor,
 #mpd {
-    padding: 0 10px;
+    padding: 5px 10px;
     color: #ffffff;
-    background-color: #40444e;
+    background-color: #282c35;
     margin: 0px 0px;
 }
 
@@ -93,18 +94,18 @@ window#waybar.solo {
 }
 
 #clock {
-    background-color: #40444e;
-	margin-right: 5px;
+    background-color: #282c35;
+    margin-right: 5px;
 }
 
 #battery {
-    background-color: #40444e;
-    color: #000000;
+    background-color: #282c35;
+    color: #8fbcbb;
 }
 
 #battery.charging, #battery.plugged {
     color: #ffffff;
-    background-color: #40444e;
+    background-color: #282c35;
 }
 
 @keyframes blink {
@@ -115,7 +116,7 @@ window#waybar.solo {
 }
 
 #battery.critical:not(.charging) {
-    background-color: #40444e;
+    background-color: #282c35;
     color: #ffffff;
     animation-name: blink;
     animation-duration: 0.5s;
@@ -130,77 +131,77 @@ label:focus {
 
 #cpu {
 	border-radius: 15px 0 0 15px;
-    background-color: #40444e;
+    background-color: #282c35;
     color: #95ff83;
     margin-left: 5px;
 }
 
 #memory {
-    background-color: #40444e;
+    background-color: #282c35;
     border-radius: 0 15px 15px 0;
     color: #e993e2;
 }
 
 #disk {
-    background-color: #40444e;
+    background-color: #282c35;
 }
 
 #backlight {
-    background-color: #40444e;
+    background-color: #282c35;
 }
 
 #network {
-    background-color: #40444e;
+    background-color: #282c35;
 	border-radius: 15px;
 	margin-right: 5px;
 	color: #83e9ff;
 }
 
 #network.disconnected {
-    background-color: #40444e;
+    background-color: #282c35;
     border-radius: 15px;
 	margin-right: 5px;
 }
 
 #pulseaudio {
-    background-color: #40444e;
+    background-color: #282c35;
     color: #ebcb8b;
     border-radius: 15px;
 	margin-right: 5px;
 }
 
 #pulseaudio.muted {
-    background-color: #40444e;
+    background-color: #282c35;
     color: #ff9a9a;
     border-radius: 15px;
     margin-right: 5px;
 }
 
 #custom-media {
-    background-color: #40444e;
+    background-color: #282c35;
     color: #2a5c45;
     min-width: 100px;
 }
 
 #custom-media.custom-spotify {
-    background-color: #40444e;
+    background-color: #282c35;
 }
 
 #custom-media.custom-vlc {
-    background-color: #40444e;
+    background-color: #282c35;
 }
 
 #temperature {
-    background-color: #40444e;
+    background-color: #282c35;
 }
 
 #temperature.critical {
-    background-color: #40444e;
+    background-color: #282c35;
 }
 
 #tray {
 	margin-left: 5px;
-    background-color: #40444e;
+    background-color: #282c35;
 }
 
 #tray > .passive {
@@ -209,15 +210,15 @@ label:focus {
 
 #tray > .needs-attention {
     -gtk-icon-effect: highlight;
-    background-color: #40444e;
+    background-color: #282c35;
 }
 
 #idle_inhibitor {
-    background-color: #40444e;
+    background-color: #282c35;
 }
 
 #idle_inhibitor.activated {
-    background-color: #40444e;
+    background-color: #282c35;
     color: #2d3436;
 }
 
@@ -239,7 +240,7 @@ label:focus {
 }
 
 #language {
-    background: #40444e;
+    background: #282c35;
     color: #740864;
     padding: 0 5px;
     margin: 0 5px;
@@ -247,7 +248,7 @@ label:focus {
 }
 
 #keyboard-state {
-    background: #40444e;
+    background: #282c35;
     color: #000000;
     padding: 0 0px;
     margin: 0 5px;
