@@ -32,6 +32,4 @@ dunst &
 
 ~/.config/polybar/launch.sh dark &
 
-picom &
-
-#ulauncher &
+picom -b &
