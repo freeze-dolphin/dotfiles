@@ -6,6 +6,10 @@
 super + Return
 	alacritty
 
+# midnight commander
+super + shift + Return
+	alacritty -o cursor.style=Beam -T "Midnight Commander" -e mc
+
 # program launcher
 super + @space
 	rofi -show run
