@@ -59,8 +59,15 @@ This function should only modify configuration layer settings."
                treemacs-use-all-the-icons-theme t)
      (unicode-fonts :variables
                     unicode-fonts-enable-ligatures t)
+     (chinese :variables
+              chinese-use-fcitx5 t
+              chinese-enable-fcitx t
+              pyim-default-scheme 'pyim-shuangpin)
+
+     yaml
      clojure
      )
+
 
 
    ;; List of additional packages that will be installed without being wrapped
@@ -72,7 +79,8 @@ This function should only modify configuration layer settings."
    ;; `:location' property: '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(doom-themes
-                                      nord-theme)
+                                      nord-theme
+                                      cnfonts)
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -546,6 +554,46 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil then byte-compile some of Spacemacs files.
    dotspacemacs-byte-compile nil))
 
+
+;; window geometry memorization
+(defun save-framegeometry ()
+  "Gets the current frame's geometry and saves to ~/.emacs.d/framegeometry."
+  (let (
+        (framegeometry-left (frame-parameter (selected-frame) 'left))
+        (framegeometry-top (frame-parameter (selected-frame) 'top))
+        (framegeometry-width (frame-parameter (selected-frame) 'width))
+        (framegeometry-height (frame-parameter (selected-frame) 'height))
+        (framegeometry-file (expand-file-name "~/.emacs.d/framegeometry"))
+        )
+    (when (not (number-or-marker-p framegeometry-left))
+      (setq framegeometry-left 0))
+    (when (not (number-or-marker-p framegeometry-top))
+      (setq framegeometry-top 0))
+    (when (not (number-or-marker-p framegeometry-width))
+      (setq framegeometry-width 0))
+    (when (not (number-or-marker-p framegeometry-height))
+      (setq framegeometry-height 0))
+    (with-temp-buffer
+      (insert
+       ";;; This is the previous emacs frame's geometry.\n"
+       ";;; Last generated " (current-time-string) ".\n"
+       "(setq initial-frame-alist\n"
+       "      '(\n"
+       (format "        (top . %d)\n" (max framegeometry-top 0))
+       (format "        (left . %d)\n" (max framegeometry-left 0))
+       (format "        (width . %d)\n" (max framegeometry-width 0))
+       (format "        (height . %d)))\n" (max framegeometry-height 0)))
+      (when (file-writable-p framegeometry-file)
+        (write-file framegeometry-file))))
+  )
+(defun load-framegeometry ()
+  "Loads ~/.emacs.d/framegeometry which should load the previous frame's
+geometry."
+  (let ((framegeometry-file (expand-file-name "~/.emacs.d/framegeometry")))
+    (when (file-readable-p framegeometry-file)
+      (load-file framegeometry-file)))
+  )
+
 (defun dotspacemacs/user-env ()
   "Environment variables setup.
 This function defines the environment variables for your Emacs session. By
@@ -553,7 +601,7 @@ default it calls `spacemacs/load-spacemacs-env' which loads the environment
 variables declared in `~/.spacemacs.env' or `~/.spacemacs.d/.spacemacs.env'.
 See the header of this file for more information."
   (spacemacs/load-spacemacs-env)
-)
+  )
 
 (defun dotspacemacs/user-init ()
   "Initialization for user code:
@@ -561,43 +609,7 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
-  (defun save-framegeometry ()
-    "Gets the current frame's geometry and saves to ~/.emacs.d/framegeometry."
-    (let (
-          (framegeometry-left (frame-parameter (selected-frame) 'left))
-          (framegeometry-top (frame-parameter (selected-frame) 'top))
-          (framegeometry-width (frame-parameter (selected-frame) 'width))
-          (framegeometry-height (frame-parameter (selected-frame) 'height))
-          (framegeometry-file (expand-file-name "~/.emacs.d/framegeometry"))
-          )
-      (when (not (number-or-marker-p framegeometry-left))
-        (setq framegeometry-left 0))
-      (when (not (number-or-marker-p framegeometry-top))
-        (setq framegeometry-top 0))
-      (when (not (number-or-marker-p framegeometry-width))
-        (setq framegeometry-width 0))
-      (when (not (number-or-marker-p framegeometry-height))
-        (setq framegeometry-height 0))
-      (with-temp-buffer
-        (insert
-         ";;; This is the previous emacs frame's geometry.\n"
-         ";;; Last generated " (current-time-string) ".\n"
-         "(setq initial-frame-alist\n"
-         "      '(\n"
-         (format "        (top . %d)\n" (max framegeometry-top 0))
-         (format "        (left . %d)\n" (max framegeometry-left 0))
-         (format "        (width . %d)\n" (max framegeometry-width 0))
-         (format "        (height . %d)))\n" (max framegeometry-height 0)))
-        (when (file-writable-p framegeometry-file)
-          (write-file framegeometry-file))))
-    )
-  (defun load-framegeometry ()
-    "Loads ~/.emacs.d/framegeometry which should load the previous frame's
-geometry."
-    (let ((framegeometry-file (expand-file-name "~/.emacs.d/framegeometry")))
-      (when (file-readable-p framegeometry-file)
-        (load-file framegeometry-file)))
-    )
+
   ;; put this in `dotspacemacs/user-init`:
   ;; Restore Frame size and location, if we are using gui emacs
   (if window-system
@@ -613,8 +625,8 @@ geometry."
 This function is called only while dumping Spacemacs configuration. You can
 `require' or `load' the libraries of your choice that will be included in the
 dump."
-)
-
+  (require 'cnfonts)
+  )
 
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
@@ -622,10 +634,16 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+
   (add-hook 'hack-local-variables-hook (lambda () (setq truncate-lines nil)))
   (global-flycheck-mode 1)
   (display-time-mode t)
-  (global-set-key (kbd "C-c C-/") 'comment-or-uncomment-region)) ; 中文测试 Emoji: 😋
+  (global-set-key (kbd "C-c C-/") 'comment-or-uncomment-region)
+
+  ;; 中文测试
+  (cnfonts-mode 1)
+  (cnfonts-set-font)
+  )
 
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -635,17 +653,17 @@ before packages are loaded."
 This is an auto-generated function, do not modify its content directly, use
 Emacs customize menu instead.
 This function is called at the very end of Spacemacs initialization."
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(doom-themes xterm-color ws-butler writeroom-mode winum which-key volatile-highlights vim-powerline vi-tilde-fringe use-package unicode-fonts undo-tree treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired treemacs-all-the-icons toc-org terminal-here term-cursor symon symbol-overlay string-inflection string-edit-at-point spacemacs-whitespace-cleanup spacemacs-purpose-popwin spaceline space-doc smeargle slime shell-pop restart-emacs request rainbow-delimiters quickrun popwin pcre2el password-generator paradox overseer org-superstar open-junk-file nord-theme nameless multi-vterm multi-term multi-line mmm-mode markdown-toc lorem-ipsum link-hint ligature inspector info+ indent-guide hybrid-mode hungry-delete holy-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-ls-git helm-git-grep helm-descbinds helm-ag google-translate golden-ratio gitignore-templates git-timemachine git-modes git-messenger git-link gh-md flyspell-correct-helm flycheck-pos-tip flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-evilified-state evil-escape evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emr elisp-slime-nav elisp-def editorconfig dumb-jump drag-stuff dotenv-mode doom-modeline dired-quick-sort diminish devdocs define-word column-enforce-mode code-review clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-dictionary auto-compile aggressive-indent ace-link ace-jump-helm-line)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-)
+  (custom-set-variables
+   ;; custom-set-variables was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(package-selected-packages
+     '(doom-themes ws-butler writeroom-mode winum which-key volatile-highlights vim-powerline vi-tilde-fringe uuidgen use-package undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired toc-org term-cursor symon symbol-overlay string-inflection string-edit-at-point spacemacs-whitespace-cleanup spacemacs-purpose-popwin spaceline space-doc restart-emacs request rainbow-delimiters quickrun popwin pcre2el password-generator paradox overseer org-superstar open-junk-file nameless multi-line macrostep lorem-ipsum link-hint inspector info+ indent-guide hybrid-mode hungry-delete holy-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-descbinds helm-ag google-translate golden-ratio flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-evilified-state evil-escape evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav elisp-def editorconfig dumb-jump drag-stuff dotenv-mode dired-quick-sort diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile all-the-icons aggressive-indent ace-link ace-jump-helm-line)))
+  (custom-set-faces
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   )
+  )
