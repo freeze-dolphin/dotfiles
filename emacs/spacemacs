@@ -32,13 +32,12 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
-     ;; ----------------------------------------------------------------
+   '(;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     ;; auto-completion
+     auto-completion
      ;; better-defaults
      emacs-lisp
      git
@@ -53,18 +52,31 @@ This function should only modify configuration layer settings."
      spell-checking
      syntax-checking
      ;; version-control
+     spacemacs-visual
 
      (treemacs :variables
+               treemacs-use-follow-mode t
                treemacs-use-filewatch-mode t
                treemacs-use-all-the-icons-theme t)
      (unicode-fonts :variables
                     unicode-fonts-enable-ligatures t)
      (chinese :variables
               chinese-use-fcitx5 t
-              chinese-enable-fcitx t
-              pyim-default-scheme 'pyim-shuangpin)
+              chinese-enable-fcitx t)
+     (tabs :variables
+           tabs-selected-tab-bar 'over)
+
+     (markdown :variables
+               markdown-live-preview-engine 'vmd)
 
      yaml
+
+     (wakatime :variables
+               wakatime-cli-path "~/.local/bin/wakatime")
+
+     prettier
+     (json :variables
+           json-fmt-on-save t)
      clojure
      )
 
@@ -79,7 +91,6 @@ This function should only modify configuration layer settings."
    ;; `:location' property: '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(doom-themes
-                                      nord-theme
                                       cnfonts)
 
    ;; A list of packages that cannot be updated.
@@ -594,6 +605,13 @@ geometry."
       (load-file framegeometry-file)))
   )
 
+(defun slurp (f)
+  (with-temp-buffer
+    (insert-file-contents f)
+    (buffer-substring-no-propertiestring-no-properties
+     (point-min)
+     (point-max))))
+
 (defun dotspacemacs/user-env ()
   "Environment variables setup.
 This function defines the environment variables for your Emacs session. By
@@ -615,8 +633,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (if window-system
       (progn
         (add-hook 'after-init-hook 'load-framegeometry)
-        (add-hook 'kill-emacs-hook 'save-framegeometry))
-    )
+        (add-hook 'kill-emacs-hook 'save-framegeometry)))
   )
 
 
@@ -640,9 +657,29 @@ before packages are loaded."
   (display-time-mode t)
   (global-set-key (kbd "C-c C-/") 'comment-or-uncomment-region)
 
-  ;; 中文测试
+  ;; 中文和英文对齐
   (cnfonts-mode 1)
   (cnfonts-set-font)
+
+  ;; treemacs configuration
+  (treemacs-project-follow-mode nil)
+
+  ;; pyim configuration
+  (pyim-default-scheme 'ziranma-shuangpin) ; zrm double-pinyin
+  ; (setq pyim-cloudim 'baidu) ; cloud pinyin
+
+  ;; pyim fuzzy pinyin
+  (setq pyim-pinyin-fuzzy-alist '(("en" "eng")
+                                  ("in" "ing")
+                                  ("un" "ong")))
+
+  ;; wakatime
+  (global-wakatime-mode nil)
+  (setq-default dotspacemacs-configuration-layers
+                '(
+                  (wakatime :variables
+                            wakatime-api-key (slurp "~/.wakatime/api_key.secret")
+                  )))
   )
 
 
@@ -659,12 +696,12 @@ This function is called at the very end of Spacemacs initialization."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(kotlin-mode doom-themes ws-butler writeroom-mode winum which-key volatile-highlights vim-powerline vi-tilde-fringe uuidgen use-package undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired toc-org term-cursor symon symbol-overlay string-inflection string-edit-at-point spacemacs-whitespace-cleanup spacemacs-purpose-popwin spaceline space-doc restart-emacs request rainbow-delimiters quickrun popwin pcre2el password-generator paradox overseer org-superstar open-junk-file nameless multi-line macrostep lorem-ipsum link-hint inspector info+ indent-guide hybrid-mode hungry-delete holy-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-descbinds helm-ag google-translate golden-ratio flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-evilified-state evil-escape evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav elisp-def editorconfig dumb-jump drag-stuff dotenv-mode dired-quick-sort diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile all-the-icons aggressive-indent ace-link ace-jump-helm-line))
+   '(json-mode kotlin-mode doom-themes ws-butler writeroom-mode winum which-key volatile-highlights vim-powerline vi-tilde-fringe uuidgen use-package undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired toc-org term-cursor symon symbol-overlay string-inflection string-edit-at-point spacemacs-whitespace-cleanup spacemacs-purpose-popwin spaceline space-doc restart-emacs request rainbow-delimiters quickrun popwin pcre2el password-generator paradox overseer org-superstar open-junk-file nameless multi-line macrostep lorem-ipsum link-hint inspector info+ indent-guide hybrid-mode hungry-delete holy-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-descbinds helm-ag google-translate golden-ratio flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-evilified-state evil-escape evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav elisp-def editorconfig dumb-jump drag-stuff dotenv-mode dired-quick-sort diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile all-the-icons aggressive-indent ace-link ace-jump-helm-line))
  '(warning-suppress-types '(((unlock-file)))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-)
+ ;; If there is more than one, they won't work
+ ))
+
