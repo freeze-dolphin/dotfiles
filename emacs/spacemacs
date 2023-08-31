@@ -675,11 +675,8 @@ before packages are loaded."
 
   ;; wakatime
   (global-wakatime-mode nil)
-  (setq-default dotspacemacs-configuration-layers
-                '(
-                  (wakatime :variables
-                            wakatime-api-key (slurp "~/.wakatime/api_key.secret")
-                  )))
+  (setq wakatime-api-key (slurp "~/.wakatime/api_key.secret"))
+
   )
 
 
