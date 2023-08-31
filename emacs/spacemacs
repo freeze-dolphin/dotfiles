@@ -608,7 +608,7 @@ geometry."
 (defun slurp (f)
   (with-temp-buffer
     (insert-file-contents f)
-    (buffer-substring-no-propertiestring-no-properties
+    (buffer-substring-no-properties
      (point-min)
      (point-max))))
 

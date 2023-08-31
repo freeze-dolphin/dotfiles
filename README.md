@@ -4,5 +4,6 @@
 
 ## screenshots
 
+![emacs](screenshots/emacs.png "emacs")
 ![bspwm](screenshots/bspwm.png "bspwm")
-
+![Graphite](screenshots/Graphite.png "Graphite")
