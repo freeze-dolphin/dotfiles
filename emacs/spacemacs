@@ -67,7 +67,8 @@ This function should only modify configuration layer settings."
            tabs-selected-tab-bar 'over)
 
      (markdown :variables
-               markdown-live-preview-engine 'vmd)
+               markdown-live-preview-engine 'vmd
+               markdown-mmm-auto-modes '("yaml"))
 
      yaml
 
