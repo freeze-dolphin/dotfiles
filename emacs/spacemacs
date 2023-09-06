@@ -76,8 +76,7 @@ This function should only modify configuration layer settings."
                wakatime-cli-path "~/.local/bin/wakatime")
 
      prettier
-     (json :variables
-           json-fmt-on-save t)
+     json
      clojure
      )
 
