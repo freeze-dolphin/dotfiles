@@ -8,6 +8,8 @@
 
 需要环境中安装的软件：
 
+- [vala-language-server](https://github.com/vala-lang/vala-language-server)
+
 - vmd `sudo npm install -g vmd`
 
 - pandoc `sudo apt install pandoc`
