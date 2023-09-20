@@ -6,6 +6,14 @@
 
 ## screenshots
 
+这个环境本底采用了 [Cinnamon Desktop Customization | Nord Color Theme _ by LinuxScoop](https://www.youtube.com/watch?v=h1yIY1BwetQ)
+
 ![emacs](screenshots/emacs.png "emacs")
+
+---
+
 ![bspwm](screenshots/bspwm.png "bspwm")
+
+---
+
 ![Graphite](screenshots/Graphite.png "Graphite")
