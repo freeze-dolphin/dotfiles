@@ -10,6 +10,10 @@
 
 - fcitx5 `sudo apt install fcitx5`
 
+- clj-kondo `https://github.com/clj-kondo/clj-kondo` 
+
+- [sbcl](http://www.sbcl.org/)
+
 - yamllint `sudo apt install yamllint`
 
 - wakatime `pip install wakatime`
