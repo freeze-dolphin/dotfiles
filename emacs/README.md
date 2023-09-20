@@ -10,7 +10,7 @@
 
 - fcitx5 `sudo apt install fcitx5`
 
-- clj-kondo `https://github.com/clj-kondo/clj-kondo` 
+- [clj-kondo](https://github.com/clj-kondo/clj-kondo)
 
 - [sbcl](http://www.sbcl.org/)
 
