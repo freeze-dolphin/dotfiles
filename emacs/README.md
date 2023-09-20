@@ -8,17 +8,9 @@
 
 需要环境中安装的软件：
 
-- [vala-language-server](https://github.com/vala-lang/vala-language-server)
-
-- vmd `sudo npm install -g vmd`
-
-- pandoc `sudo apt install pandoc`
-
 - fcitx5 `sudo apt install fcitx5`
 
 - yamllint `sudo apt install yamllint`
-
-- web-beautify `sudo npm install -g js-beautify`
 
 - wakatime `pip install wakatime`
 
