@@ -14,6 +14,9 @@
 
 ![bspwm](screenshots/bspwm.png "bspwm")
 
+![bspwm_2](screenshots/bspwm_2.png "bspwm 2")
+
 ---
 
 ![Graphite](screenshots/Graphite.png "Graphite")
+
