@@ -69,6 +69,8 @@ This function should only modify configuration layer settings."
                markdown-live-preview-engine 'vmd
                markdown-mmm-auto-modes '("yaml"))
 
+     (lsp)
+
      yaml
 
      (wakatime :variables
@@ -78,6 +80,7 @@ This function should only modify configuration layer settings."
      (clojure :variables
               clojure-enable-fancify-symbols t
               clojure-enable-linters 'clj-kondo)
+     (c-c++ :variables c-c++-backend 'lsp-clangd)
      )
 
 
@@ -673,10 +676,12 @@ before packages are loaded."
                                   ("in" "ing")
                                   ("un" "ong")))
 
+  ;; commonlisp
+  (setq inferior-lisp-program "/usr/bin/clasp")
+
   ;; wakatime
   (global-wakatime-mode nil)
   (setq wakatime-api-key (slurp "~/.wakatime/api_key.secret"))
-
   )
 
 

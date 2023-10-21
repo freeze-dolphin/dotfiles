@@ -4,11 +4,11 @@
 
 # terminal emulator
 super + Return
-	alacritty
+	wezterm
 
 # midnight commander
 super + shift + Return
-	alacritty -o cursor.style=Beam -T "Midnight Commander" -e mc
+	alacritty -e mc
 
 # program launcher
 super + @space

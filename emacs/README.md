@@ -13,6 +13,12 @@
 - [clj-kondo](https://github.com/clj-kondo/clj-kondo)
 
 - [sbcl](http://www.sbcl.org/)
+    
+    > **Note**
+    > 或者使用 [clasp](https://github.com/clasp-developers/clasp/wiki/Installing-Using-a-Package-Manager)
+    > 请勿忘记修改相关配置
+
+- rtags `sudo apt install rtags`
 
 - yamllint `sudo apt install yamllint`
 
