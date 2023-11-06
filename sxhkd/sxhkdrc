@@ -6,13 +6,17 @@
 super + Return
 	wezterm
 
-# midnight commander
-super + shift + Return
-	wezterm -e mc
-
 # program launcher
 super + @space
 	rofi -show run
+
+# mc
+super + shift + e
+	wezterm -e mc
+
+# thunar
+super + e
+	thunar
 
 # make sxhkd reload its configuration files:
 super + Escape

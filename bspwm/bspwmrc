@@ -24,7 +24,8 @@ bspc config top_padding 20
 
 xsetroot -cursor_name left_ptr
 
-fcitx5 &
+# fcitx5 &
+# changed to .xinitrc
 
 feh --bg-scale ~/Pictures/backgrounds/nord/tower-nord.png
 
@@ -32,4 +33,9 @@ dunst &
 
 ~/.config/polybar/launch.sh dark &
 
-picom -b &
+# xfce4-panel & 
+
+picom &
+
+nmcli connection up WZU\ PPPoE &
+
