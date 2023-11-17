@@ -56,7 +56,7 @@ This function should only modify configuration layer settings."
      (treemacs :variables
                treemacs-use-follow-mode t
                treemacs-use-filewatch-mode t
-               treemacs-use-all-the-icons-theme t)
+               treemacs-use-icons-dired nil)
      (unicode-fonts :variables
                     unicode-fonts-enable-ligatures t)
      (chinese :variables
@@ -68,18 +68,22 @@ This function should only modify configuration layer settings."
      (markdown :variables
                markdown-live-preview-engine 'vmd
                markdown-mmm-auto-modes '("yaml"))
-
-     (lsp)
+ 
+    (lsp)
 
      yaml
 
      (wakatime :variables
                wakatime-cli-path "~/.local/bin/wakatime")
 
-     common-lisp
-     (clojure :variables
+     (clojure :variables ;; https://develop.spacemacs.org/layers/+lang/clojure/README.html
+              clojure-backend 'lsp
               clojure-enable-fancify-symbols t
-              clojure-enable-linters 'clj-kondo)
+              clojure-enable-linters '(clj-kondo joker)
+              clojure-enable-fancify-symbols t
+              clojure-enable-sayid t
+              clojure-enable-clj-refactor t
+              clojure-enable-kaocha-runner t)
      (c-c++ :variables c-c++-backend 'lsp-clangd)
      )
 
@@ -94,7 +98,9 @@ This function should only modify configuration layer settings."
    ;; `:location' property: '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(doom-themes
-                                      cnfonts)
+                                      cnfonts
+                                      nerd-icons
+                                      treemacs-nerd-icons)
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -267,8 +273,8 @@ It should only modify the values of Spacemacs settings."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(doom-nord)
-                                        ;'(spacemacs-dark
+   dotspacemacs-themes '(doom-nord-aurora)
+                                        ; '(spacemacs-dark
                                         ;  spacemacs-light)
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
@@ -568,53 +574,6 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil then byte-compile some of Spacemacs files.
    dotspacemacs-byte-compile nil))
 
-
-;; window geometry memorization
-(defun save-framegeometry ()
-  "Gets the current frame's geometry and saves to ~/.emacs.d/framegeometry."
-  (let (
-        (framegeometry-left (frame-parameter (selected-frame) 'left))
-        (framegeometry-top (frame-parameter (selected-frame) 'top))
-        (framegeometry-width (frame-parameter (selected-frame) 'width))
-        (framegeometry-height (frame-parameter (selected-frame) 'height))
-        (framegeometry-file (expand-file-name "~/.emacs.d/framegeometry"))
-        )
-    (when (not (number-or-marker-p framegeometry-left))
-      (setq framegeometry-left 0))
-    (when (not (number-or-marker-p framegeometry-top))
-      (setq framegeometry-top 0))
-    (when (not (number-or-marker-p framegeometry-width))
-      (setq framegeometry-width 0))
-    (when (not (number-or-marker-p framegeometry-height))
-      (setq framegeometry-height 0))
-    (with-temp-buffer
-      (insert
-       ";;; This is the previous emacs frame's geometry.\n"
-       ";;; Last generated " (current-time-string) ".\n"
-       "(setq initial-frame-alist\n"
-       "      '(\n"
-       (format "        (top . %d)\n" (max framegeometry-top 0))
-       (format "        (left . %d)\n" (max framegeometry-left 0))
-       (format "        (width . %d)\n" (max framegeometry-width 0))
-       (format "        (height . %d)))\n" (max framegeometry-height 0)))
-      (when (file-writable-p framegeometry-file)
-        (write-file framegeometry-file))))
-  )
-(defun load-framegeometry ()
-  "Loads ~/.emacs.d/framegeometry which should load the previous frame's
-geometry."
-  (let ((framegeometry-file (expand-file-name "~/.emacs.d/framegeometry")))
-    (when (file-readable-p framegeometry-file)
-      (load-file framegeometry-file)))
-  )
-
-(defun slurp (f)
-  (with-temp-buffer
-    (insert-file-contents f)
-    (buffer-substring-no-properties
-     (point-min)
-     (point-max))))
-
 (defun dotspacemacs/user-env ()
   "Environment variables setup.
 This function defines the environment variables for your Emacs session. By
@@ -631,6 +590,9 @@ configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
+  (load-file "~/.emacs.d/private/fragments/framegeometry.el")
+  (load-file "~/.emacs.d/private/fragments/utils.el")
+
   ;; put this in `dotspacemacs/user-init`:
   ;; Restore Frame size and location, if we are using gui emacs
   (if window-system
@@ -638,7 +600,6 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
         (add-hook 'after-init-hook 'load-framegeometry)
         (add-hook 'kill-emacs-hook 'save-framegeometry)))
   )
-
 
 (defun dotspacemacs/user-load ()
   "Library to load while dumping.
@@ -650,15 +611,20 @@ dump."
 
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
+
 This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
+  ;; general configuration
   (add-hook 'hack-local-variables-hook (lambda () (setq truncate-lines nil)))
   (global-flycheck-mode 1)
   (display-time-mode t)
   (global-set-key (kbd "C-c C-/") 'comment-or-uncomment-region)
+
+  ;; spacemacs configuration
+  ; (spacemacs/enable-background-transparency)
 
   ;; 中文和英文对齐
   (cnfonts-mode 1)
@@ -666,6 +632,11 @@ before packages are loaded."
 
   ;; treemacs configuration
   (treemacs-project-follow-mode nil)
+  (setq treemacs-no-png-images t)
+
+  ;; lsp configuration
+  (setq lsp-headerline-breadcrumb-icons-enable nil)
+  (setq lsp-modeline-code-actions-enable nil)
 
   ;; pyim configuration
   (pyim-default-scheme 'ziranma-shuangpin) ; zrm double-pinyin
@@ -676,7 +647,7 @@ before packages are loaded."
                                   ("in" "ing")
                                   ("un" "ong")))
 
-  ;; commonlisp
+  ;; common-lisp
   (setq inferior-lisp-program "/usr/bin/clasp")
 
   ;; wakatime
@@ -698,7 +669,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(json-mode kotlin-mode doom-themes ws-butler writeroom-mode winum which-key volatile-highlights vim-powerline vi-tilde-fringe uuidgen use-package undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired toc-org term-cursor symon symbol-overlay string-inflection string-edit-at-point spacemacs-whitespace-cleanup spacemacs-purpose-popwin spaceline space-doc restart-emacs request rainbow-delimiters quickrun popwin pcre2el password-generator paradox overseer org-superstar open-junk-file nameless multi-line macrostep lorem-ipsum link-hint inspector info+ indent-guide hybrid-mode hungry-delete holy-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-descbinds helm-ag google-translate golden-ratio flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-evilified-state evil-escape evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav elisp-def editorconfig dumb-jump drag-stuff dotenv-mode dired-quick-sort diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile all-the-icons aggressive-indent ace-link ace-jump-helm-line))
+   '(treemacs-nerd-icons json-mode kotlin-mode doom-themes ws-butler writeroom-mode winum which-key volatile-highlights vim-powerline vi-tilde-fringe uuidgen use-package undo-tree treemacs-projectile treemacs-persp treemacs-icons-dired toc-org term-cursor symon symbol-overlay string-inflection string-edit-at-point spacemacs-whitespace-cleanup spacemacs-purpose-popwin spaceline space-doc restart-emacs request rainbow-delimiters quickrun popwin pcre2el password-generator paradox overseer org-superstar open-junk-file nameless multi-line macrostep lorem-ipsum link-hint inspector info+ indent-guide hybrid-mode hungry-delete holy-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-descbinds helm-ag google-translate golden-ratio flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-evilified-state evil-escape evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav elisp-def editorconfig dumb-jump drag-stuff dotenv-mode dired-quick-sort diminish devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile all-the-icons aggressive-indent ace-link ace-jump-helm-line))
  '(warning-suppress-types '(((unlock-file)))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
