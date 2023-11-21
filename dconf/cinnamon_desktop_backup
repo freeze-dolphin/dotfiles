@@ -1,0 +1,128 @@
+[/]
+alttab-switcher-delay=100
+alttab-switcher-style='icons'
+desklet-snap-interval=25
+desktop-effects-change-size=true
+desktop-effects-map='traditional'
+desktop-effects-on-dialogs=true
+desktop-effects-on-menus=true
+enabled-applets=['panel1:left:1:menu@cinnamon.org:0', 'panel1:right:24:systray@cinnamon.org:3', 'panel1:right:26:xapp-status@cinnamon.org:4', 'panel1:right:27:notifications@cinnamon.org:5', 'panel1:right:28:keyboard@cinnamon.org:8', 'panel1:right:29:network@cinnamon.org:10', 'panel1:right:31:sound@cinnamon.org:11', 'panel1:right:33:power@cinnamon.org:12', 'panel1:center:0:calendar@cinnamon.org:13', 'panel1:right:35:user@cinnamon.org:38', 'panel1:right:34:spacer@cinnamon.org:49', 'panel1:right:25:spacer@cinnamon.org:50', 'panel1:right:32:spacer@cinnamon.org:51', 'panel1:right:30:spacer@cinnamon.org:52', 'panel1:right:36:spacer@cinnamon.org:59', 'panel1:left:2:workspace-switcher@cinnamon.org:63', 'panel1:right:37:cornerbar@cinnamon.org:65', 'panel1:left:0:spacer@cinnamon.org:66', 'panel1:left:4:sysmonitor@orcus:87', 'panel1:left:3:spacer@cinnamon.org:88']
+enabled-desklets=@as []
+enabled-extensions=['user-shadows@nathan818fr']
+hotcorner-layout=['scale:true:100', 'scale:false:0', 'scale:false:0', 'desktop:false:0']
+next-applet-id=89
+next-desklet-id=1
+panel-edit-mode=false
+panel-launchers=['DEPRECATED']
+panel-zone-icon-sizes='[{"panelId": 1, "left": 24, "center": 0, "right": 24}]'
+panel-zone-symbolic-icon-sizes='[{"panelId": 1, "left": 24, "center": 28, "right": 16}]'
+panel-zone-text-sizes='[{"panelId": 1, "left": 0.0, "center": 0, "right": 0}]'
+panels-autohide=['1:false', '2:false']
+panels-enabled=['1:0:top']
+panels-height=['1:33', '2:48']
+panels-hide-delay=['1:0', '2:0']
+panels-show-delay=['1:0', '2:0']
+show-media-keys-osd='medium'
+window-effect-speed=1
+workspace-osd-visible=false
+
+[cinnamon-session]
+quit-time-delay=60
+
+[desktop/background]
+picture-options='centered'
+picture-uri='file:///home/freeze-dolphin/Pictures/backgrounds/tower-nord.png'
+
+[desktop/background/slideshow]
+delay=15
+image-source='directory:///home/cinnamon/.local/share/wallpapers'
+
+[desktop/interface]
+cursor-blink-time=1200
+cursor-size=24
+cursor-theme='Simp1e Nord'
+font-name='WenQuanYi Micro Hei 10'
+gtk-theme='WhiteSur-Dark-nord'
+icon-theme='Papirus-Dark'
+text-scaling-factor=1.0
+
+[desktop/keybindings]
+custom-list=['custom0', '__dummy__']
+
+[desktop/keybindings/custom-keybindings/custom0]
+binding=['<Shift><Super>F9']
+command='xset dpms force off'
+name='Close screen'
+
+[desktop/keybindings/media-keys]
+terminal=['<Super>Return']
+
+[desktop/keybindings/wm]
+activate-window-menu=@as []
+close=['<Super>q']
+move-to-workspace-1=['<Shift><Super>exclam']
+move-to-workspace-2=['<Shift><Super>at']
+move-to-workspace-3=['<Shift><Super>numbersign']
+move-to-workspace-4=['<Shift><Super>dollar']
+move-to-workspace-5=['<Shift><Super>percent']
+move-to-workspace-6=['<Shift><Super>asciicircum']
+switch-to-workspace-1=['<Super>1']
+switch-to-workspace-2=['<Super>2']
+switch-to-workspace-3=['<Super>3']
+switch-to-workspace-4=['<Super>4']
+switch-to-workspace-5=['<Super>5']
+switch-to-workspace-6=['<Super>6']
+switch-to-workspace-left=@as []
+switch-to-workspace-right=@as []
+
+[desktop/notifications]
+bottom-notifications=true
+
+[desktop/peripherals/keyboard]
+delay=uint32 500
+numlock-state=false
+repeat-interval=uint32 30
+
+[desktop/peripherals/mouse]
+double-click=400
+drag-threshold=8
+speed=0.0
+
+[desktop/peripherals/touchpad]
+click-method='fingers'
+speed=0.0
+tap-to-click=true
+
+[desktop/sound]
+event-sounds=false
+
+[desktop/wm/preferences]
+button-layout=':minimize,maximize,close'
+min-window-opacity=30
+num-workspaces=6
+titlebar-font='Noto Sans CJK SC 10'
+workspace-names=['1', '2', '3', '4', '5', '6']
+
+[launcher]
+check-frequency=300
+memory-limit=2048
+
+[muffin]
+attach-modal-dialogs=true
+center-new-windows=true
+draggable-border-width=10
+tile-maximize=true
+
+[settings-daemon/peripherals/keyboard]
+numlock-state='off'
+
+[settings-daemon/plugins/power]
+lid-close-ac-action='nothing'
+lid-close-battery-action='suspend'
+sleep-display-ac=1800
+sleep-display-battery=1800
+sleep-inactive-ac-timeout=0
+sleep-inactive-battery-timeout=0
+
+[theme]
+name='WhiteSur-Dark-solid-nord'
