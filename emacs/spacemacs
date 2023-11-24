@@ -48,13 +48,13 @@ This function should only modify configuration layer settings."
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
-     spell-checking
+     ;; spell-checking
      syntax-checking
      ;; version-control
      spacemacs-visual
 
      (treemacs :variables
-               treemacs-use-follow-mode t
+               ; treemacs-use-follow-mode t
                treemacs-use-filewatch-mode t
                treemacs-use-icons-dired nil)
      (unicode-fonts :variables
@@ -62,16 +62,17 @@ This function should only modify configuration layer settings."
      (chinese :variables
               chinese-use-fcitx5 t
               chinese-enable-fcitx t)
-     ;(tabs :variables
-     ;      tabs-selected-tab-bar 'over)
 
-     (markdown :variables
-               markdown-live-preview-engine 'vmd
-               markdown-mmm-auto-modes '("yaml"))
- 
-    (lsp)
+     ; (tabs :variables
+     ;       tabs-selected-tab-bar 'over)
+     ;; commented out because tab bar is taking space...
 
+     markdown
      yaml
+     (lua :variables
+          lua-backend 'lua-mode)
+
+     lsp
 
      (wakatime :variables
                wakatime-cli-path "~/.local/bin/wakatime")
@@ -84,10 +85,18 @@ This function should only modify configuration layer settings."
               clojure-enable-sayid t
               clojure-enable-clj-refactor t
               clojure-enable-kaocha-runner t)
-     (c-c++ :variables c-c++-backend 'lsp-clangd)
+
+     ;; GO AND USE THE FUCKING VSCODE
+     ;; (c-c++ :variables
+     ;;        c-c++-backend 'lsp-clangd
+     ;;        c-c++-dap-adapters '(dap-lldb)
+     ;;        dap-lldb-debug-program "/usr/bin/lldb-vscode-14"
+     ;;        c-c++-enable-clang-format-on-save t
+     ;;        c-c++-enable-google-style t)
+     ;; (cmake :variables
+     ;;        cmake-backend 'lsp
+     ;;        cmake-enable-cmake-ide-support t)
      )
-
-
 
    ;; List of additional packages that will be installed without being wrapped
    ;; in a layer (generally the packages are installed only and should still be
@@ -99,8 +108,7 @@ This function should only modify configuration layer settings."
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(doom-themes
                                       cnfonts
-                                      nerd-icons
-                                      treemacs-nerd-icons)
+                                      nerd-icons)
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -630,7 +638,7 @@ before packages are loaded."
   (cnfonts-set-font)
 
   ;; treemacs configuration
-  (treemacs-project-follow-mode nil)
+  ;(treemacs-project-follow-mode nil)
   (setq treemacs-no-png-images t)
 
   ;; lsp configuration
