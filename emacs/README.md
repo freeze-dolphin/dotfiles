@@ -25,7 +25,6 @@
     > 根据 [askubuntu.com clang++ cannot find iostream](https://askubuntu.com/questions/1449769/clang-cannot-find-iostream)
 
 - clang-format `sudo apt install clang-format`
--->
 
 - lldb `sudo apt install lldb` 
 
@@ -34,6 +33,7 @@
     > 仓库中还有 `lldb-15` 可用
     > 如果需要使用 `lldb-15`
     > 请手动修改一下 `.spacemacs`
+-->
 
 - wakatime `pip install wakatime`
 
