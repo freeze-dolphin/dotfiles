@@ -1,0 +1,11 @@
+import = [ "~/.config/alacritty/nord.toml", ]
+
+[window]
+dimensions = { columns = 80, lines = 20 }
+padding = { x = 5, y = 3 } 
+opacity = 0.95
+blur = true
+
+[font]
+size = 13.0
+normal = { family = "JetBrainsMono Nerd Font" }
