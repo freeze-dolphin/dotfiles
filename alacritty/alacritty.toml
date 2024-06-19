@@ -7,5 +7,6 @@ opacity = 0.95
 blur = true
 
 [font]
+#size = 10.5
 size = 13.0
 normal = { family = "JetBrainsMono Nerd Font" }

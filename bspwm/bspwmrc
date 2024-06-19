@@ -4,7 +4,7 @@ pgrep -x sxhkd > /dev/null || sxhkd &
 
 bspc monitor -d 1 2 3 4 5 6
 
-bspc config border_width         2
+bspc config border_width         4
 bspc config window_gap          12
 bspc config split_ratio          0.52
 bspc config borderless_monocle   true
@@ -22,6 +22,8 @@ bspc config top_padding 20
 #bspc rule -a Kupfer.py focus=on
 #bspc rule -a Screenkey manage=off
 
+bspc rule -a QQ state=floating
+
 xsetroot -cursor_name left_ptr
 
 # fcitx5 &
@@ -37,5 +39,5 @@ dunst &
 
 picom &
 
-nmcli connection up WZU\ PPPoE &
+# nmcli connection up WZU\ PPPoE &
 

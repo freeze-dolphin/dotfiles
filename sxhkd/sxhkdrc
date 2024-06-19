@@ -4,19 +4,19 @@
 
 # terminal emulator
 super + Return
-	wezterm
+	alacritty
 
 # program launcher
 super + @space
 	rofi -show run
 
-# mc
+# file browser alternative
 super + shift + e
-	wezterm -e mc
+	alacritty -e mc
 
-# thunar
+# file browser
 super + e
-	thunar
+	alacritty -e ranger
 
 # make sxhkd reload its configuration files:
 super + Escape
