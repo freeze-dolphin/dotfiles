@@ -4,9 +4,14 @@
 -- Forum: https://www.reddit.com/r/lunarvim/
 -- Discord: https://discord.com/invite/Xb9B4Ny
 
+lvim.lsp.automatic_configuration.skipped_servers = { "jdtls" }
+lvim.leader = "space"
 lvim.colorscheme = 'nord'
 lvim.plugins = {
     {
         "shaunsingh/nord.nvim",
     },
 }
+
+local lspconfig = require 'lspconfig'
+
