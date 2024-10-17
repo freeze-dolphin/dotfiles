@@ -1,0 +1,108 @@
+{
+    "createdBy": "Redirector v3.5.3",
+    "createdAt": "2024-09-11T12:11:00.731Z",
+    "redirects": [
+        {
+            "description": "Example redirect, try going to http://example.com/anywordhere",
+            "exampleUrl": "http://example.com/some-word-that-matches-wildcard",
+            "exampleResult": "https://google.com/search?q=some-word-that-matches-wildcard",
+            "error": null,
+            "includePattern": "http://example.com/*",
+            "excludePattern": "",
+            "patternDesc": "Any word after example.com leads to google search for that word.",
+            "redirectUrl": "https://google.com/search?q=$1",
+            "patternType": "W",
+            "processMatches": "noProcessing",
+            "disabled": false,
+            "grouped": false,
+            "appliesTo": [
+                "main_frame"
+            ]
+        },
+        {
+            "description": "Discord",
+            "exampleUrl": "https://discord.com/",
+            "exampleResult": "https://discord.com/app",
+            "error": null,
+            "includePattern": "https://discord.com/",
+            "excludePattern": "",
+            "patternDesc": "append 'app'",
+            "redirectUrl": "https://discord.com/app",
+            "patternType": "W",
+            "processMatches": "noProcessing",
+            "disabled": false,
+            "grouped": false,
+            "appliesTo": [
+                "main_frame"
+            ]
+        },
+        {
+            "description": "rpg.blue use legacy style (forumdisplay)",
+            "exampleUrl": "https://rpg.blue/forum.php?mod=forumdisplay&fid=27",
+            "exampleResult": "https://rpg.blue/forum.php?mod=forumdisplay&fid=27&page=1",
+            "error": null,
+            "includePattern": "https:\\/\\/rpg\\.blue\\/forum\\.php\\?mod=forumdisplay&fid=([0-9]*)",
+            "excludePattern": "",
+            "patternDesc": "",
+            "redirectUrl": "https://rpg.blue/forum.php?mod=forumdisplay&fid=$1&page=1",
+            "patternType": "R",
+            "processMatches": "noProcessing",
+            "disabled": false,
+            "grouped": false,
+            "appliesTo": [
+                "main_frame"
+            ]
+        },
+        {
+            "description": "rpg.blue use legacy style (main)",
+            "exampleUrl": "https://rpg.blue/forum.php",
+            "exampleResult": "https://rpg.blue/forum.php?playercu=1",
+            "error": null,
+            "includePattern": "https://rpg.blue/(.*)",
+            "excludePattern": "https://rpg.blue/#|https:\\/\\/rpg\\.blue\\/forum\\.php\\?mod=post&action=newthread&fid=([0-9]*)|.*playercu=1.*",
+            "patternDesc": "",
+            "redirectUrl": "https://rpg.blue/$1?playercu=1",
+            "patternType": "R",
+            "processMatches": "noProcessing",
+            "disabled": false,
+            "grouped": false,
+            "appliesTo": [
+                "main_frame"
+            ]
+        },
+        {
+            "description": "rpg.blue use legacy style (# special)",
+            "exampleUrl": "https://rpg.blue/#",
+            "exampleResult": "https://rpg.blue/?playercu=1",
+            "error": null,
+            "includePattern": "https://rpg.blue/#",
+            "excludePattern": "",
+            "patternDesc": "",
+            "redirectUrl": "https://rpg.blue/?playercu=1",
+            "patternType": "W",
+            "processMatches": "noProcessing",
+            "disabled": false,
+            "grouped": false,
+            "appliesTo": [
+                "main_frame"
+            ]
+        },
+        {
+            "description": "kook",
+            "exampleUrl": "https://www.kookapp.cn/",
+            "exampleResult": "https://www.kookapp.cn/app/home/",
+            "error": null,
+            "includePattern": "https://www.kookapp.cn/",
+            "excludePattern": "",
+            "patternDesc": "",
+            "redirectUrl": "https://www.kookapp.cn/app/home/",
+            "patternType": "W",
+            "processMatches": "noProcessing",
+            "disabled": false,
+            "grouped": false,
+            "appliesTo": [
+                "main_frame"
+            ]
+        }
+    ]
+}

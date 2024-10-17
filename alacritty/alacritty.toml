@@ -2,8 +2,8 @@ import = [ "~/.config/alacritty/nord.toml", ]
 
 [window]
 dimensions = { columns = 80, lines = 20 }
-padding = { x = 5, y = 3 } 
-opacity = 0.95
+padding = { x = 5, y = 3 }
+opacity = 0.9
 blur = true
 
 [font]
