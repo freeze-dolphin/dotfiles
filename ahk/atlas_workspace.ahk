@@ -9,7 +9,6 @@ if !InStr(A_OSVersion, "10.0.") {
 ;; PRELUDE END
 
 { ; Disable taskbar W-1 ~ W-9 shortcuts
-
     #1::
     #2::
     #3::
@@ -44,30 +43,75 @@ if !InStr(A_OSVersion, "10.0.") {
         return
     }
 
-    ; #+Enter::
-    ; {
-    ;     Run "wt -p Gentoo"
+    #+Enter::
+    {
+        Run "wt -p Gentoo"
 
-    ;     WinWait "ahk_class CASCADIA_HOSTING_WINDOW_CLASS", , 4
+        WinWait "ahk_class CASCADIA_HOSTING_WINDOW_CLASS", , 4
 
-    ;     try {
-    ;         WinWait "ahk_class CASCADIA_HOSTING_WINDOW_CLASS", , 4
-    ;         if WinExist("ahk_class CASCADIA_HOSTING_WINDOW_CLASS") {
-    ;             WinRestore
-    ;             Sleep 80
-    ;             WinActivate
-    ;         }
-    ;     } catch {
-    ;     }
-    ;     return
-    ; }
+        try {
+            WinWait "ahk_class CASCADIA_HOSTING_WINDOW_CLASS", , 4
+            if WinExist("ahk_class CASCADIA_HOSTING_WINDOW_CLASS") {
+                WinRestore
+                Sleep 80
+                WinActivate
+            }
+        } catch {
+        }
+        return
+    }
 }
 
 { ; close window shortcuts
 
-    #q:: Send("!{F4}")
+    {
+        windowBlacklist := [
+            "Flow.Launcher.exe"
+        ]
 
-    {   ; DiscordAltF4
+        IsBlacklistedWindow(hwnd) {
+            global windowBlacklist
+
+            processName := WinGetProcessName("A")
+            className := WinGetClass(hwnd)
+
+            for exe in windowBlacklist {
+                if (processName = exe) {
+                    return true
+                }
+            }
+
+            if (processName = "Rainmeter.exe" && className = "RainmeterMeterWindow") {
+                return true
+            }
+
+            return false
+        }
+
+        IsDesktopWindow(hwnd) {
+            processName := WinGetProcessName(hwnd)
+            className := WinGetClass(hwnd)
+
+            return processName = "explorer.exe"
+                && className ~= "^(Progman|WorkerW)$"
+        }
+
+        CloseActiveWindow() {
+            hwnd := WinExist("A")
+
+            if hwnd
+                && !IsBlacklistedWindow(hwnd)
+                && !IsDesktopWindow(hwnd) {
+                WinClose(hwnd)
+            }
+        }
+
+        !F4:: CloseActiveWindow()
+        #q:: CloseActiveWindow()
+    }
+
+    {
+        ; DiscordAltF4
         ; Version: 0.0.4
         ; https://github.com/asheroto/DiscordAltF4
         ; AutoHotkey v2
@@ -100,4 +144,28 @@ if !InStr(A_OSVersion, "10.0.") {
 
         PostMessage(0x111, 41504, , , "ahk_class CabinetWClass")
     }
+
+}
+
+{ ; total commander
+
+    ; #e::
+    ; {
+    ;     Run "C:\Users\Administrator\AppData\Local\TotalCMD64\TotalCMD64.exe"
+    ; }
+
+}
+
+{ ; taskmgr
+
+    ^+Esc::
+    {
+        if WinExist("ahk_exe SystemInformer.exe") {
+            WinActivate
+        }
+        else {
+            Run "C:\Program Files\SystemInformer\SystemInformer.exe"
+        }
+    }
+
 }
